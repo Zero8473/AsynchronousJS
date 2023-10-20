@@ -106,7 +106,10 @@ const request = fetch(
 
 const getCountryDataPromise = function (country) {
   fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`)
-    .then(response => response.json())
+    .then(
+      response => response.json(),
+      err => alert(err),
+    )
     .then(data => {
       renderCountry(data[0]);
       const neighbor = data[0].borders?.[0];
@@ -121,4 +124,7 @@ const getCountryDataPromise = function (country) {
       renderCountry(data, 'neighbor');
     });
 };
-getCountryDataPromise('portugal');
+
+btn.addEventListener('click', function () {
+  getCountryDataPromise('portugal');
+});
