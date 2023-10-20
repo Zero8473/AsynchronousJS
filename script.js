@@ -4,7 +4,7 @@ const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
 ///////////////////////////////////////
-/*
+//AJAX Calls
 const getCountryData = function (country) {
   const request = new XMLHttpRequest();
   request.open(
@@ -36,7 +36,6 @@ const getCountryData = function (country) {
     countriesContainer.style.opacity = 1;
   });
 };
-*/
 
 const renderCountry = function (data, className = '') {
   const html = `
@@ -56,7 +55,7 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
-/*
+
 const getCountryAndNeighbor = function (country) {
   //AJAX call country 1
   const request = new XMLHttpRequest();
@@ -72,7 +71,7 @@ const getCountryAndNeighbor = function (country) {
     console.log(data);
     //Render country 1
     renderCountry(data);
-
+    //AJAX call neighboring country
     //Get neighbor country
     const neighbor = data.borders?.[0];
 
@@ -91,7 +90,7 @@ const getCountryAndNeighbor = function (country) {
       renderCountry(data2, 'neighbour');
     });
   });
-};*/
+};
 
 /*getCountryData('portugal');
 getCountryData('usa');
