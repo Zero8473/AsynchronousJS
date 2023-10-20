@@ -116,10 +116,6 @@ const getCountryDataPromise = function (country) {
         `https://countries-api-836d.onrender.com/countries/alpha/${neighbor}`,
       );
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      renderCountry(data, 'neighbor');
-    });
+    .then(data => renderCountry(data[0]));
 };
 getCountryDataPromise('portugal');
