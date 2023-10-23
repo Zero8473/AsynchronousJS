@@ -1,6 +1,6 @@
 'use strict';
 
-import { renderCountry, countriesContainer, btn } from './script';
+import { renderCountry, countriesContainer, btn } from './script.js';
 
 //AJAX Calls
 const getCountryData = function (country) {
