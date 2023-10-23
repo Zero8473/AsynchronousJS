@@ -22,34 +22,96 @@ const renderCountry = function (data, className = '') {
       </article>
     `;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  countriesContainer.style.opacity = 1;
+  // countriesContainer.style.opacity = 1;
 };
 
 //export to other js file
 export { renderCountry, btn, countriesContainer };
 
-const request = fetch(
-  'https://countries-api-836d.onrender.com/countries/name/portugal',
-);
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  // countriesContainer.style.opacity = 1;
+};
 
+//helper function
+const getJSON = function (url, errorMsg = 'Something went wrong.') {
+  return fetch(url).then(response => {
+    if (!response.ok) {
+      throw new Error(`${errorMsg} (${response.status})`);
+    }
+    console.log(response);
+    return response.json();
+  });
+};
+
+//without helper function
+/*
 const getCountryDataPromise = function (country) {
   fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`)
-    .then(
-      response => response.json(),
-      err => alert(err),
-    )
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Country not found (${response.status})`);
+      }
+      console.log(response);
+      return response.json();
+    })
     .then(data => {
       renderCountry(data[0]);
       const neighbor = data[0].borders?.[0];
+
+      if (!neighbor) return;
 
       return fetch(
         `https://countries-api-836d.onrender.com/countries/alpha/${neighbor}`,
       );
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Country not found (${response.status})`);
+      }
+      return response.json();
+    })
     .then(data => {
-      console.log(data);
       renderCountry(data, 'neighbor');
+    })
+    .catch(err => {
+      console.error(`${err}`);
+      renderError(`Something went wrong. ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
+*/
+
+//with helper function
+const getCountryDataPromise = function (country) {
+  getJSON(
+    `https://countries-api-836d.onrender.com/countries/name/${country}`,
+    'Country not found!',
+  )
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbor = data[0].borders?.[0];
+
+      if (!neighbor) {
+        throw new Error('No neighbor found!');
+      }
+
+      return getJSON(
+        `https://countries-api-836d.onrender.com/countries/alpha/${neighbor}`,
+        'Country not found!',
+      );
+    })
+    .then(data => {
+      renderCountry(data, 'neighbor');
+    })
+    .catch(err => {
+      console.error(`${err}`);
+      renderError(`Something went wrong. ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
     });
 };
 
