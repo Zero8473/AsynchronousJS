@@ -115,4 +115,5 @@ const getCountryDataPromise2 = function (country) {
 
 btn.addEventListener('click', function () {
   getCountryDataPromise2('portugal');
+  count;
 });
