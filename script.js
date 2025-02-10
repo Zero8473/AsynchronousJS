@@ -113,7 +113,6 @@ const getCountryDataPromise2 = function (country) {
     });
 };
 
-console.log("HELLO world");
 btn.addEventListener('click', function () {
   getCountryDataPromise2('portugal');
   count;
